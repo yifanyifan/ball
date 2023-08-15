@@ -1,0 +1,56 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        - id: sys
+          uri: lb://sys
+          predicates:
+            - Path=/sys/**
+          filters:
+            - StripPrefix=1
+        - id: dashboard
+          uri: lb://dashboard
+          predicates:
+            - Path=/dashboard/**
+          filters:
+            - StripPrefix=1
+      httpclient:
+        connectTimeout: 30000
+        responseTimeout: 35000
+      discovery:
+        locator:
+          enabled: true #开启从注册中心动态创建路由的功能
+          lower-case-service-id: true #使用小写服务名，默认是大写
+      loadbalancer:
+        use404: true
+  redis:
+    database: 4
+    host: 192.168.52.10
+    port: 6379
+    password: Yifan123.
+    jedis:
+      pool:
+        max-wait: 3600
+        max-active: 1
+        max-idle: 1
+        min-idle: 1
+    timeout: 3600
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: 'http://localhost:8001/rsa/publicKey' #配置RSA的公钥访问地址
+secure:
+  ignore:
+    urls: #配置白名单路径
+      - "/actuator/**"
+      - "/oauth/token"
+      - "/auth/oauth/token"
+      - "/auth/rsa/publicKey"
+      - "/sys/sso/login"

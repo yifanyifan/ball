@@ -1,0 +1,21 @@
+server:
+  port: 8002
+#  servlet:
+#    context-path: /gateway
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.52.10
+        namespace: d1729191-4383-4908-a6cd-a032191dd943
+        ephemeral: false #雪崩保护：true:服务实例以"临时"方式注册,当服务实例意外终止不再发送心跳时，Nacos会将该实例自动注销。false:服务实例以"持久"的方式注册,即使服务实例意外终止或不再发送心跳，Nacos也会保持该实例的注册状态，直到显式注销或服务实例被删除
+      config:
+        server-addr: 192.168.52.10
+        namespace: d1729191-4383-4908-a6cd-a032191dd943
+        file-extension: yml  # 必须修改成yaml或者yml
+        group: DEFAULT_GROUP  # 缺省即可
+        prefix: ${spring.application.name} # 缺省即可
+logging:
+  config: classpath:logback-spring.xml

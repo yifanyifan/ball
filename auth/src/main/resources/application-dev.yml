@@ -1,0 +1,13 @@
+spring:
+  redis:
+    database: 4
+    host: 192.168.52.10
+    port: 6379
+    password: Yifan123.
+    jedis:
+      pool:
+        max-wait: 3600
+        max-active: 1
+        max-idle: 1
+        min-idle: 1
+    timeout: 3600

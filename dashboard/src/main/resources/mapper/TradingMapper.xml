@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chain.mapper.TradingMapper">
+    <select id="testIn" resultType="com.chain.entity.Trading">
+        select r.* from db_trading r where r.category = '王霸1' and r.commission_time between #{dateStart} and #{dateEnd}
+    </select>
+</mapper>
