@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chain.common.PageEntity;
 import com.chain.common.ResultEntity;
 import com.chain.dto.RoleDTO;
 import com.chain.entity.Trading;
-import com.chain.feign.RuleFeign;
+import com.chain.feign.sys.RuleFeign;
 import com.chain.mapper.TradingMapper;
 import com.chain.param.TradingPageParam;
 import com.chain.service.TradingService;
@@ -45,7 +44,6 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setName("dddddddddddddddddddddddd");
         ResultEntity<Boolean> a = ruleFeign.create(roleDTO);
-        System.out.println(a);
         return true;
     }
 
