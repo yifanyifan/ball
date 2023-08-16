@@ -1,9 +1,10 @@
 package com.chain.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.chain.entity.Trading;
 import com.chain.param.TradingPageParam;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.chain.common.PageEntity;
+
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public interface TradingService extends IService<Trading> {
      * @return
      * @throws Exception
      */
-    PageEntity<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception;
+    IPage<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception;
 
     /**
      * 获取列表对象

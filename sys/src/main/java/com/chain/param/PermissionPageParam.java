@@ -1,10 +1,10 @@
 package com.chain.param;
 
+import com.chain.common.BasePageParam;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import com.chain.common.BasePageParam;
 
 /**
  * <pre>

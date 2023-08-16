@@ -1,5 +1,6 @@
 package com.chain.feign;
 
+import com.chain.common.ResultEntity;
 import com.chain.dto.RoleDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
@@ -14,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(value = "sys")
 public interface RuleFeign {
     @RequestMapping(value = "/role/add", method = RequestMethod.POST)
-    Boolean create(RoleDTO roleDTO);
+    ResultEntity<Boolean> create(RoleDTO roleDTO);
 }

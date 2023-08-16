@@ -5,18 +5,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * @author liang.zhang
- * @date 2020年3月25日
- * @desc TODO
- */
 @Data
 @AllArgsConstructor
 public class ResultEntity<T> implements Serializable {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = -5835280423988735793L;
     private Integer code = 20000;
     private String status;

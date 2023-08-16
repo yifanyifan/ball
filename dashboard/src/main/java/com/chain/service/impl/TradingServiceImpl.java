@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.common.PageEntity;
+import com.chain.common.ResultEntity;
 import com.chain.dto.RoleDTO;
 import com.chain.entity.Trading;
 import com.chain.feign.RuleFeign;
@@ -43,7 +44,7 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
         super.save(trading);
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setName("dddddddddddddddddddddddd");
-        Boolean a = ruleFeign.create(roleDTO);
+        ResultEntity<Boolean> a = ruleFeign.create(roleDTO);
         System.out.println(a);
         return true;
     }
@@ -62,11 +63,11 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
 
 
     @Override
-    public PageEntity<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception {
+    public IPage<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception {
         Page<Trading> page = new Page<>(tradingPageParam.getPageIndex(), tradingPageParam.getPageSize());
         LambdaQueryWrapper<Trading> wrapper = getLambdaQueryWrapper(tradingPageParam);
         IPage<Trading> iPage = tradingMapper.selectPage(page, wrapper);
-        return new PageEntity<Trading>(iPage);
+        return iPage;
     }
 
     @Override

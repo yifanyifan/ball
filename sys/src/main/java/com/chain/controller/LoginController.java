@@ -1,29 +1,22 @@
 package com.chain.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.core.util.StrUtil;
 import com.chain.common.ResultEntity;
 import com.chain.entity.Role;
 import com.chain.entity.User;
 import com.chain.service.LoginService;
 import com.chain.service.PermissionService;
 import com.chain.service.RoleService;
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.internal.constraintvalidators.bv.notempty.NotEmptyValidatorForArraysOfLong;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,7 +38,7 @@ public class LoginController {
         try {
             return loginService.login(username, password, request);
         } catch (Exception e) {
-                log.info(e.getMessage(), e);
+            log.info(e.getMessage(), e);
             return ResultEntity.failed("登录异常" + e.getMessage());
         }
     }

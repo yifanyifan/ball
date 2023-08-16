@@ -1,5 +1,6 @@
 package com.chain.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.chain.common.PageEntity;
 import com.chain.common.ResultEntity;
 import com.chain.entity.Trading;
@@ -77,8 +78,8 @@ public class TradingController {
      */
     @PostMapping("/getPageList")
     @ApiOperation(value = "历史委托表分页列表", response = Trading.class)
-    public ResultEntity<PageEntity<Trading>> getTradingPageList(@Validated @RequestBody TradingPageParam tradingPageParam) throws Exception {
-        PageEntity<Trading> paging = tradingService.getTradingPageList(tradingPageParam);
+    public ResultEntity<IPage<Trading>> getTradingPageList(@Validated @RequestBody TradingPageParam tradingPageParam) throws Exception {
+        IPage<Trading> paging = tradingService.getTradingPageList(tradingPageParam);
         return ResultEntity.success(paging);
     }
 
