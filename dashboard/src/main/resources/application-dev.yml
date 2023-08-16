@@ -109,12 +109,35 @@ spring:
         max-idle: 1
         min-idle: 1
     timeout: 3600
+  cloud:
+    #熔断限流
+    sentinel:
+      transport:
+        # 添加sentinel的控制台地址
+        dashboard: 192.168.52.10:8858
+        # 指定应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
+        port: 8858
+      # 默认将调用链路收敛，需要打开才可以进行链路流控
+      web-context-unify: false
+    filter:
+      # 默认收敛所有URL的入口Context，因此链路限流此时不生效，若使用链路流控模式则设置为false
+      enabled: true
 #Mybatis配置
 mybatis:
   # 搜索指定包别名
   typeAliasesPackage: com.chain
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
   mapperLocations: classpath*:mapper/**/*.xml
+#熔断/降级
+feign:
+  sentinel:
+    enabled: true
+#Feign默认超时时间为1s，这里可以进行延长
+ribbon:
+  ConnectTimeout: 5000
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+  ReadTimeout:  5000
+#分布式事务
 seata:
   enabled: true
   #使用自动代理数据源

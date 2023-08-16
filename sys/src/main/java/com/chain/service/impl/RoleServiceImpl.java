@@ -36,7 +36,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public boolean saveRole(RoleDTO roleDTO) throws Exception {
         Role role = new Role();
         BeanUtil.copyProperties(roleDTO, role);
-        return super.save(role);
+        super.save(role);
+        return true;
     }
 
     @Transactional(rollbackFor = Exception.class)

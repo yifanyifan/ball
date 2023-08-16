@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @date 2022年09月29日 11:28
  */
 @Component
-@FeignClient(value = "sys")
+@FeignClient(value = "sys", fallbackFactory = RuleFeignClientFallbackFactory.class)
 public interface RuleFeign {
     @RequestMapping(value = "/role/add", method = RequestMethod.POST)
     ResultEntity<Boolean> create(RoleDTO roleDTO);
