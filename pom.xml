@@ -69,37 +69,12 @@
                 <version>2.2.5.RELEASE</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-security</artifactId>
-                <version>2.2.5.RELEASE</version>
-            </dependency>
-            <dependency>
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>8.16</version>
             </dependency>
 
             <!-- knife4j -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>2.9.2</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>2.9.2</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>1.5.22</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>1.5.22</version>
-            </dependency>
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -115,11 +90,6 @@
 
             <!-- 分布式事务 -->
             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring-boot-starter</artifactId>
-                <version>1.5.2</version>
-            </dependency>
-            <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-commons</artifactId>
                 <version>2021.0.4.0</version>
@@ -128,16 +98,6 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
                 <version>2021.0.4.0</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.seata</groupId>
-                        <artifactId>seata-spring-boot-starter</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.alibaba.cloud</groupId>
-                        <artifactId>spring-cloud-alibaba-commons</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- 调用 -->
@@ -159,11 +119,6 @@
             </dependency>
 
             <!-- nacos -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-nacos-config</artifactId>
-                <version>2.2.0.RELEASE</version>
-            </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>

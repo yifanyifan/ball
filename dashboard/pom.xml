@@ -55,10 +55,6 @@
 
         <!-- 分布式事务 -->
         <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-commons</artifactId>
         </dependency>
@@ -106,22 +102,6 @@
         </dependency>
 
         <!-- knife4j -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-models</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
