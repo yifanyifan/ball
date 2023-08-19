@@ -116,12 +116,13 @@ spring:
         # 添加sentinel的控制台地址
         dashboard: 192.168.52.10:8858
         # 指定应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
-        port: 8858
+        port: 8719
       # 默认将调用链路收敛，需要打开才可以进行链路流控
       web-context-unify: false
-    filter:
-      # 默认收敛所有URL的入口Context，因此链路限流此时不生效，若使用链路流控模式则设置为false
       enabled: true
+      filter:
+        # 默认收敛所有URL的入口Context，因此链路限流此时不生效，若使用链路流控模式则设置为false
+        enabled: true
 #Mybatis配置
 mybatis:
   # 搜索指定包别名
