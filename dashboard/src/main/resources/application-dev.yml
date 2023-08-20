@@ -141,39 +141,45 @@ ribbon:
 #分布式事务
 seata:
   enabled: true
-  #使用自动代理数据源
+  #启用自动代理数据源，它会自动对数据源进行代理以实现分布式事务的管理。
   enableAutoDataSourceProxy: true
-  #数据源代理模式使用AT模式(可以不用配置，seata默认使用AT模式)
+  #数据源代理模式使用AT模式(默认使用AT模式)
   data-source-proxy-mode: AT
-  # 配置事务分组， 要与客户端配置的事务分组一致
+  #配置事务分组，用于标识事务所属的分组。要与客户端配置的事务分组一致。
   tx-service-group: 'test_tx_group'
-  #事务群组（可以每个应用独立取名，也可以使用相同的名字），要与服务端seataServer.properties中service.vgroup_mapping中存在,并且要保证多个群组情况下后缀名要保持一致-tx_group
+  #配置 Seata 服务的相关信息，包括事务分组映射。
   service:
+    #配置事务分组映射表，将事务分组映射到实际的 Seata 服务集群。
     vgroup-mapping:
-      #就是服务端配置中cluster的值，即default
+      #将名为 "test_tx_group" 的事务分组映射到名为 "default" 的 Seata 服务集群。
       test_tx_group: 'default'
+      #配置 Seata 服务集群的地址。
       grouplist:
+        #将名为 "seata-server" 的服务映射到地址 "192.168.52.10:8091"。
         seata-server: 192.168.52.10:8091
+  #配置 Seata 使用的注册中心，这里是 Nacos。
   registry:
     type: nacos
     nacos:
-      #nacos地址
+      #Nacos 服务器地址
       server-addr: 192.168.52.10:8848
-      # seata分组名称
+      #Nacos 分组名称
       group: SEATA_GROUP
-      #nacos命名空间ID
+      #Nacos 命名空间 ID
       namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
-      #seata服务名
+      #Seata 在 Nacos 注册的应用名
       application: seata-server
+      #集群名称
       cluster: 'default'
+  #配置 Seata 使用的配置中心，这里同样是 Nacos。
   config:
     type: nacos
     nacos:
-      #nacos地址
+      #Nacos 服务器地址
       server-addr: 192.168.52.10:8848
-      # seata分组名称
+      #Nacos 分组名称
       group: SEATA_GROUP
-      #nacos命名空间ID
+      #Nacos 命名空间 ID
       namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
-      #读nacos上的seataServer.properties配置文件
+      #要读取的配置文件在 Nacos 上的 ID，这里是 seataServer.properties。
       data-id: seataServer.properties
