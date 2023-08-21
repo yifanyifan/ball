@@ -87,6 +87,11 @@
                 <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
                 <version>4.1.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-transaction-base-seata-at</artifactId>
+                <version>4.1.1</version>
+            </dependency>
 
             <!-- 分布式事务 -->
             <dependency>
@@ -160,6 +165,11 @@
                 <groupId>com.github.dozermapper</groupId>
                 <artifactId>dozer-core</artifactId>
                 <version>6.5.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>20.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

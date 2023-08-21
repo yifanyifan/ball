@@ -1,5 +1,6 @@
 package com.chain.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,8 +13,9 @@ import com.chain.mapper.TradingMapper;
 import com.chain.param.TradingPageParam;
 import com.chain.service.TradingService;
 import io.seata.core.context.RootContext;
-import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
+import org.apache.shardingsphere.transaction.core.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,11 +38,13 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
     private RuleFeign ruleFeign;
 
     @Override
-    @GlobalTransactional(rollbackFor = Exception.class)
+    //@GlobalTransactional(rollbackFor = Exception.class)
+    @Transactional
+    @ShardingTransactionType(TransactionType.BASE)
     public boolean saveTrading(Trading trading) throws Exception {
         System.out.println("xid_order1:" + RootContext.getXID());
-        //List<Trading> tradingList = tradingMapper.testIn(DateUtil.parse("2023-07-07 17:02:03", "yyyy-MM-dd HH:mm:ss"), DateUtil.parse("2023-07-08 00:00:00", "yyyy-MM-dd HH:mm:ss"));
-        super.save(trading);
+        List<Trading> tradingList = tradingMapper.testIn(DateUtil.parse("2023-07-07 17:02:03", "yyyy-MM-dd HH:mm:ss"), DateUtil.parse("2023-07-08 23:00:00", "yyyy-MM-dd HH:mm:ss"));
+        //super.save(trading);
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setName("dddddddddddddddddddddddd");
         ResultEntity<Boolean> a = ruleFeign.create(roleDTO);
