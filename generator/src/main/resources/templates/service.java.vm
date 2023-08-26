@@ -20,7 +20,7 @@ import java.util.List;
  * @since ${date}
  */
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
-#if(${cfg.generatorStrategy} != 'SIMPLE')
+#*#if(${cfg.generatorStrategy} != 'SIMPLE')
 
     /**
      * 保存
@@ -77,6 +77,6 @@ public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
      * @throws Exception
      */
     List<${entity}${cfg.queryVo}> get${entity}List(${entity}${cfg.pageParam} ${cfg.entityObjectName}${cfg.pageParam}) throws Exception;
-#end
+#end*#
 
 }

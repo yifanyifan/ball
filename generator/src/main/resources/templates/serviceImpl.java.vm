@@ -37,7 +37,7 @@ public class ${table.serviceImplName} extends ServiceImpl<${table.mapperName}, $
 
     @Autowired
     private ${table.mapperName} ${cfg.mapperObjectName};
-#if(${cfg.generatorStrategy} != 'SIMPLE')
+#*#if(${cfg.generatorStrategy} != 'SIMPLE')
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -87,6 +87,6 @@ public class ${table.serviceImplName} extends ServiceImpl<${table.mapperName}, $
         LambdaQueryWrapper<${entity}${cfg.queryVo}> wrapper = new LambdaQueryWrapper<>();
         return wrapper;
     }
-#end
+#end*#
 
 }

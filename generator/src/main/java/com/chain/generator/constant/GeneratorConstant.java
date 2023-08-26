@@ -97,7 +97,7 @@ public interface GeneratorConstant {
     /**
      * 自定义继承的Controller类全称，带包名
      */
-    String SUPER_CONTROLLER_CLASS = "";
+    String SUPER_CONTROLLER_CLASS = "com.chain.common.BaseController";
     /**
      * 自定义继承的Service类全称，带包名
      */

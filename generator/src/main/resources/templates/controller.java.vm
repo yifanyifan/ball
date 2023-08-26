@@ -73,7 +73,7 @@ public class ${table.controllerName} {
     @Autowired
     private ${table.serviceName} ${cfg.serviceObjectName};
 
-#if(${cfg.generatorStrategy} != 'SIMPLE')
+#*#if(${cfg.generatorStrategy} != 'SIMPLE')
     /**
      * 添加$!{table.comment}
      */
@@ -174,7 +174,7 @@ public class ${table.controllerName} {
         List<${entity}${cfg.queryVo}> list = ${cfg.entityObjectName}Service.get${entity}List(${cfg.entityObjectName}${cfg.pageParam});
         return ResultEntity.success(list);
     }
-#end
+#end*#
 
 }
 

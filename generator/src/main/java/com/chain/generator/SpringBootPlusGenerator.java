@@ -52,16 +52,16 @@ public class SpringBootPlusGenerator {
                 .setFileOverride(true);
 
         // 设置表信息
-        generatorProperties.addTable("db_trading_detail", "id");
+        generatorProperties.addTable("undo_log", "id");
         // 设置表前缀
-        generatorProperties.setTablePrefix(Arrays.asList("db_"));
+        generatorProperties.setTablePrefix(Arrays.asList(""));
 
         // 数据源配置
         generatorProperties.getDataSourceConfig()
                 .setUsername("root")
                 .setPassword("Yifan123.")
                 .setDriverName("com.mysql.jdbc.Driver")
-                .setUrl("jdbc:mysql://192.168.52.10:3306/ball?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8");
+                .setUrl("jdbc:mysql://192.168.52.10:3306/ball_dashboard?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8");
 
         // 生成配置
         generatorProperties.getGeneratorConfig()
