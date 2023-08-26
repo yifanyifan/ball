@@ -29,43 +29,4 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
 
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean saveRolePermission(RolePermission rolePermission) throws Exception {
-        return super.save(rolePermission);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean updateRolePermission(RolePermission rolePermission) throws Exception {
-        return super.updateById(rolePermission);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean deleteRolePermission(Long id) throws Exception {
-        return super.removeById(id);
-    }
-
-
-    @Override
-    public PageEntity<RolePermission> getRolePermissionPageList(RolePermissionPageParam rolePermissionPageParam) throws Exception {
-        Page<RolePermission> page = new Page<>(rolePermissionPageParam.getPageIndex(), rolePermissionPageParam.getPageSize());
-        LambdaQueryWrapper<RolePermission> wrapper = getLambdaQueryWrapper(rolePermissionPageParam);
-        IPage<RolePermission> iPage = rolePermissionMapper.selectPage(page, wrapper);
-        return new PageEntity<RolePermission>(iPage);
-    }
-
-    @Override
-    public List<RolePermission> getRolePermissionList(RolePermissionPageParam rolePermissionPageParam) throws Exception {
-        LambdaQueryWrapper<RolePermission> wrapper = getLambdaQueryWrapper(rolePermissionPageParam);
-        List<RolePermission> RolePermissionList = rolePermissionMapper.selectList(wrapper);
-        return RolePermissionList;
-    }
-
-    private LambdaQueryWrapper<RolePermission> getLambdaQueryWrapper(RolePermissionPageParam rolePermissionPageParam) {
-        LambdaQueryWrapper<RolePermission> wrapper = new LambdaQueryWrapper<>();
-        return wrapper;
-    }
-
 }

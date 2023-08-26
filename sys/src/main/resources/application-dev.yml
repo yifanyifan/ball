@@ -75,11 +75,11 @@ spring:
         min-idle: 1
     timeout: 3600
 #Mybatis配置
-mybatis:
+mybatis-plus:
   # 搜索指定包别名
-  typeAliasesPackage: com.chain
+  type-aliases-package: com.chain
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapperLocations: classpath*:mapper/**/*.xml
+  mapper-locations: classpath*:mapper/*.xml
 seata:
   enabled: true
   #使用自动代理数据源

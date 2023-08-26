@@ -17,5 +17,4 @@ import java.util.List;
 @Repository
 public interface TradingMapper extends BaseMapper<Trading> {
     List<Trading> testIn(@Param("dateStart") Date dateStart, @Param("dateEnd") Date dateEnd);
-
 }

@@ -13,78 +13,32 @@ public class ResultEntity<T> implements Serializable {
     private String status;
     private T data;
 
-    /**
-     * 成功返回结果
-     *
-     * @param data 获取的数据
-     */
+    public static <T> ResultEntity<T> success() {
+        return new ResultEntity<>(ResultEntityEnum.SUCCESS.getCode(), ResultEntityEnum.SUCCESS.getMsg(), null);
+    }
+
     public static <T> ResultEntity<T> success(T data) {
         return new ResultEntity<>(ResultEntityEnum.SUCCESS.getCode(), ResultEntityEnum.SUCCESS.getMsg(), data);
     }
 
-    /**
-     * 成功返回结果
-     *
-     * @param data    获取的数据
-     * @param message 提示信息
-     */
     public static <T> ResultEntity<T> success(String message, T data) {
         return new ResultEntity<T>(ResultEntityEnum.SUCCESS.getCode(), message, data);
     }
 
-    public static <T> ResultEntity<T> generate(ResultEntityEnum code, String message, T data) {
-        return new ResultEntity<T>(code.getCode(), message, data);
-    }
-
-    /**
-     * 失败返回结果
-     *
-     * @param errorCode 错误码
-     */
-    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode) {
-        return new ResultEntity<T>(errorCode.getCode(), errorCode.getMsg(), null);
-    }
-
-    /**
-     * 失败返回结果
-     *
-     * @param errorCode 错误码
-     * @param message   错误信息
-     */
-    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode, String message) {
-        return new ResultEntity<T>(errorCode.getCode(), message, null);
-    }
-
-    /**
-     * 失败返回结果
-     *
-     * @param message 提示信息
-     */
-    public static <T> ResultEntity<T> failed(String message) {
-        return new ResultEntity<T>(ResultEntityEnum.FAILED.getCode(), message, null);
-    }
-
-    /**
-     * 失败返回结果
-     */
     public static <T> ResultEntity<T> failed() {
         return failed(ResultEntityEnum.FAILED);
     }
 
-    /**
-     * 参数验证失败返回结果
-     */
-    public static <T> ResultEntity<T> validateFailed() {
-        return failed(ResultEntityEnum.VALIDATE_FAILED);
+    public static <T> ResultEntity<T> failed(String message) {
+        return new ResultEntity<T>(ResultEntityEnum.FAILED.getCode(), message, null);
     }
 
-    /**
-     * 参数验证失败返回结果
-     *
-     * @param message 提示信息
-     */
-    public static <T> ResultEntity<T> validateFailed(String message) {
-        return new ResultEntity<T>(ResultEntityEnum.VALIDATE_FAILED.getCode(), message, null);
+    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode) {
+        return new ResultEntity<T>(errorCode.getCode(), errorCode.getMsg(), null);
+    }
+
+    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode, String message) {
+        return new ResultEntity<T>(errorCode.getCode(), message, null);
     }
 
     /**

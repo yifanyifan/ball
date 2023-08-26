@@ -1,16 +1,12 @@
 package com.chain.service.impl;
 
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.common.ResultEntity;
 import com.chain.dto.RoleDTO;
 import com.chain.entity.Trading;
 import com.chain.feign.sys.RuleFeign;
 import com.chain.mapper.TradingMapper;
-import com.chain.param.TradingPageParam;
 import com.chain.service.TradingService;
 import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +37,7 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
     //@GlobalTransactional(rollbackFor = Exception.class)
     @Transactional
     @ShardingTransactionType(TransactionType.BASE)
-    public boolean saveTrading(Trading trading) throws Exception {
+    public boolean testTrading(Trading trading) throws Exception {
         System.out.println("xid_order1:" + RootContext.getXID());
         List<Trading> tradingList = tradingMapper.testIn(DateUtil.parse("2023-07-07 17:02:03", "yyyy-MM-dd HH:mm:ss"), DateUtil.parse("2023-07-08 23:00:00", "yyyy-MM-dd HH:mm:ss"));
         //super.save(trading);
@@ -50,38 +46,4 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
         ResultEntity<Boolean> a = ruleFeign.create(roleDTO);
         return true;
     }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean updateTrading(Trading trading) throws Exception {
-        return super.updateById(trading);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
-    public boolean deleteTrading(Long id) throws Exception {
-        return super.removeById(id);
-    }
-
-
-    @Override
-    public IPage<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception {
-        Page<Trading> page = new Page<>(tradingPageParam.getPageIndex(), tradingPageParam.getPageSize());
-        LambdaQueryWrapper<Trading> wrapper = getLambdaQueryWrapper(tradingPageParam);
-        IPage<Trading> iPage = tradingMapper.selectPage(page, wrapper);
-        return iPage;
-    }
-
-    @Override
-    public List<Trading> getTradingList(TradingPageParam tradingPageParam) throws Exception {
-        LambdaQueryWrapper<Trading> wrapper = getLambdaQueryWrapper(tradingPageParam);
-        List<Trading> TradingList = tradingMapper.selectList(wrapper);
-        return TradingList;
-    }
-
-    private LambdaQueryWrapper<Trading> getLambdaQueryWrapper(TradingPageParam tradingPageParam) {
-        LambdaQueryWrapper<Trading> wrapper = new LambdaQueryWrapper<>();
-        return wrapper;
-    }
-
 }

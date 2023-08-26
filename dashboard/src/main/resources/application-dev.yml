@@ -124,11 +124,11 @@ spring:
         # 默认收敛所有URL的入口Context，因此链路限流此时不生效，若使用链路流控模式则设置为false
         enabled: true
 #Mybatis配置
-mybatis:
+mybatis-plus:
   # 搜索指定包别名
-  typeAliasesPackage: com.chain
+  type-aliases-package: com.chain
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
-  mapperLocations: classpath*:mapper/*.xml
+  mapper-locations: classpath*:mapper/*.xml
 #熔断/降级
 feign:
   sentinel:

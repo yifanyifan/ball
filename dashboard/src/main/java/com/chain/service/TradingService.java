@@ -1,11 +1,7 @@
 package com.chain.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chain.entity.Trading;
-import com.chain.param.TradingPageParam;
-
-import java.util.List;
 
 /**
  * 历史委托表 服务类
@@ -15,50 +11,6 @@ import java.util.List;
  */
 public interface TradingService extends IService<Trading> {
 
-    /**
-     * 保存
-     *
-     * @param trading
-     * @return
-     * @throws Exception
-     */
-    boolean saveTrading(Trading trading) throws Exception;
-
-    /**
-     * 修改
-     *
-     * @param trading
-     * @return
-     * @throws Exception
-     */
-    boolean updateTrading(Trading trading) throws Exception;
-
-    /**
-     * 删除
-     *
-     * @param id
-     * @return
-     * @throws Exception
-     */
-    boolean deleteTrading(Long id) throws Exception;
-
-
-    /**
-     * 获取分页对象
-     *
-     * @param tradingPageParam
-     * @return
-     * @throws Exception
-     */
-    IPage<Trading> getTradingPageList(TradingPageParam tradingPageParam) throws Exception;
-
-    /**
-     * 获取列表对象
-     *
-     * @param tradingPageParam
-     * @return
-     * @throws Exception
-     */
-    List<Trading> getTradingList(TradingPageParam tradingPageParam) throws Exception;
+    boolean testTrading(Trading trading) throws Exception;
 
 }
