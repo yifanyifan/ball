@@ -22,9 +22,11 @@ public abstract class BaseController<S> {
     @Autowired
     private ApplicationContext applicationContext;
 
-    private Class<S> entityType;
-
-    public BaseController() {
+    /**
+     * 获取Service
+     */
+    public <T> T getServiceByObjectType() {
+        Class<S> entityType = null;
         Type superClass = getClass().getGenericSuperclass();
         if (superClass instanceof ParameterizedType) {
             Type[] typeArgs = ((ParameterizedType) superClass).getActualTypeArguments();
@@ -32,9 +34,7 @@ public abstract class BaseController<S> {
                 entityType = (Class<S>) typeArgs[0];
             }
         }
-    }
 
-    public <T> T getServiceByObjectType() {
         String[] serviceBeanNames = applicationContext.getBeanNamesForType(ServiceImpl.class);
         return (T) applicationContext.getBean(StrUtil.lowerFirst(entityType.getSimpleName()) + "ServiceImpl");
     }
