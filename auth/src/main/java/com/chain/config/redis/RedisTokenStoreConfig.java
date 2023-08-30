@@ -1,4 +1,4 @@
-package com.chain.configjwt;/*
+package com.chain.config.redis;/*
 package com.metadata.train.auth.configredis;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.chain.auth.service;
+package com.chain.config;
 
 import com.chain.common.Constant;
 import com.chain.dto.UserDTO;
@@ -17,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 设置用户验证服务。
+ */
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -28,8 +31,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        String password = passwordEncoder.encode("123456789");
-
+        // String password = passwordEncoder.encode("123456789");
         String clientId = request.getParameter("client_id");
 
         UserDTO userDTO = null;

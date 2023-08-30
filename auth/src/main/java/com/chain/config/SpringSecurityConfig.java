@@ -11,15 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * 添加SpringSecurity配置，允许认证相关路径的访问及表单登录, 实现定制化的安全配置。
+ * 添加SpringSecurity配置，允许认证相关路径的访问及表单登录, 实现HTTP定制化的安全配置。
  */
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
     /**
      * PasswordEncoder 是 Spring Security 提供的接口，用于对密码进行安全的哈希编码。
-     * 在这个代码中，BCryptPasswordEncoder 是 Spring Security 提供的一种具体的实现，它使用 BCrypt 哈希算法来进行密码的编码和验证。
+     * BCryptPasswordEncoder 是 Spring Security 提供的一种具体的实现，它使用 BCrypt 哈希算法来进行密码的编码和验证。
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,7 +36,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 定义请求的安全规则和访问控制策略。可以设置哪些请求需要身份验证、哪些请求需要特定的角色或权限、配置跨域请求、启用 CSRF 保护等。
+     * 定义HTTP请求的安全规则和访问控制策略。可以设置哪些请求需要身份验证、哪些请求需要特定的角色或权限、配置跨域请求、启用 CSRF 保护等。
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {

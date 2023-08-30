@@ -1,4 +1,4 @@
-package com.chain.configjwt;
+package com.chain.config.jwt;
 
 import com.chain.entity.SecurityUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

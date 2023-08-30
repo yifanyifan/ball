@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ public class TradingController extends BaseController<Trading> {
      * 添加历史委托表
      */
     @PostMapping("/test")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "添加历史委托表", response = ResultEntity.class)
     public ResultEntity<Boolean> addTrading(@Validated(Add.class) @RequestBody Trading trading) throws Exception {
         boolean flag = tradingService.testTrading(trading);

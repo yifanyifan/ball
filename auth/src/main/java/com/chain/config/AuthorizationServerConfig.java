@@ -1,10 +1,8 @@
 package com.chain.config;
 
-import com.chain.auth.service.UserService;
 import com.chain.common.Constant;
-import com.chain.configjwt.JwtTokenEnhancer;
+import com.chain.config.jwt.JwtTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -17,7 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
@@ -33,21 +30,18 @@ import java.util.List;
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
-    /**
-     * PasswordEncoder
-     */
+    //SpringSecurityConfig类中定义的BCryptPasswordEncoder()
     @Autowired
     private PasswordEncoder passwordEncoder;
-    /**
-     * SpringSecurityConfig
-     */
+    //SpringSecurityConfig类中定义的authenticationManagerBean()
     @Autowired
     private AuthenticationManager authenticationManager;
-    /**
-     * UserService
-     */
+    //定义的UserDetailsService类
     @Autowired
     private UserService userService;
+    //Jwt内容增强器
+    @Autowired
+    private JwtTokenEnhancer jwtTokenEnhancer;
     /**
      * 将令牌存储为 JWT 格式
      */
@@ -60,11 +54,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //     */
 //    @Autowired
 //    private JwtAccessTokenConverter jwtAccessTokenConverter;
-    /**
-     * Jwt内容增强器
-     */
-    @Autowired
-    private JwtTokenEnhancer jwtTokenEnhancer;
+
 
     /**
      * 配置Oauth2【客户端】（Client Details）请求访问【认证服务器】时身份验证信息
@@ -106,10 +96,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //将令牌增强器列表设置到TokenEnhancerChain对象中，以配置JWT的内容增强器。这将确保在生成JWT令牌时，会应用上述的令牌增强器。
         enhancerChain.setTokenEnhancers(delegates);
 
-        endpoints.authenticationManager(authenticationManager)  //配置身份验证管理器（authenticationManager），用于处理身份验证请求。注入SpringSecurityConfig类
+        endpoints.authenticationManager(authenticationManager)  //配置身份验证管理器（authenticationManager），用于处理身份验证请求。
                 .userDetailsService(userService)                //配置加载用户信息的服务。
                 .accessTokenConverter(accessTokenConverter())   //配置访问令牌转换器。
-                .tokenEnhancer(enhancerChain);                  //配置令牌增强器
+                .tokenEnhancer(enhancerChain);                  //配置令牌增强器，或指定 token 的存储方式。
     }
 
     /**
@@ -135,7 +125,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         //从证书中获取指定别名（"jwt"）和密码的密钥对
         return keyStoreKeyFactory.getKeyPair("jwt", "123456".toCharArray());
     }
-
 
     /**
      * 作用是允许客户端使用表单身份验证，以便授权服务器可以处理这种类型的客户端身份验证请求。这样，客户端可以使用表单提交其身份验证凭证，并与授权服务器进行交互。
