@@ -1,6 +1,5 @@
 package com.chain.config.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -9,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
@@ -23,14 +21,6 @@ import java.security.KeyPair;
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)//启用权限表达式
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    /**
-     * 负责处理 JWT 令牌的存储和访问
-     */
-    @Bean
-    public TokenStore jwtTokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
-    }
-
     /**
      * 生成JWT令牌转换器，并可使用密钥对对令牌进行签名和验证操作。这样配置的授权服务器可以生成和验证 JWT 令牌，以实现基于 JWT 的身份验证和授权功能。
      * 负责将 OAuth2 令牌和 JWT 令牌进行转换。密钥对从证书文件中加载，用于 JWT 令牌的签名和验证。
@@ -57,17 +47,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     /**
-     * 将上述定义的 jwtTokenStore 注入进来
-     */
-    @Autowired
-    private TokenStore jwtTokenStore;
-
-    /**
      * 这个方法配置资源服务器的安全性。在这里，将之前创建的 jwtTokenStore 设置为资源服务器的 TokenStore，用于处理令牌。
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenStore(jwtTokenStore);
+        resources.tokenStore(new JwtTokenStore(jwtAccessTokenConverter()));
     }
 
     /**
