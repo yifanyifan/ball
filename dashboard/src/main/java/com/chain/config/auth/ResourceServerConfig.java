@@ -22,6 +22,17 @@ import java.security.KeyPair;
 @EnableGlobalMethodSecurity(prePostEnabled = true)//启用权限表达式
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     /**
+     * 这个方法配置 HTTP 安全性，即定义哪些请求需要受保护，哪些请求允许公开访问
+     * 允许所有用户访问 "/login" 路径，其他路径可能需要进行身份验证。
+     */
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/api", "/api/**").permitAll()
+                .anyRequest().authenticated();
+    }
+
+    /**
      * 生成JWT令牌转换器，并可使用密钥对对令牌进行签名和验证操作。这样配置的授权服务器可以生成和验证 JWT 令牌，以实现基于 JWT 的身份验证和授权功能。
      * 负责将 OAuth2 令牌和 JWT 令牌进行转换。密钥对从证书文件中加载，用于 JWT 令牌的签名和验证。
      */
@@ -52,14 +63,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(new JwtTokenStore(jwtAccessTokenConverter()));
-    }
-
-    /**
-     * 这个方法配置 HTTP 安全性，即定义哪些请求需要受保护，哪些请求允许公开访问
-     * 允许所有用户访问 "/login" 路径，其他路径可能需要进行身份验证。
-     */
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/login").permitAll();
     }
 }
