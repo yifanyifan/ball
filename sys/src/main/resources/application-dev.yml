@@ -118,3 +118,7 @@ seata:
       namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
       #读nacos上的seataServer.properties配置文件
       data-id: seataServer.properties
+security:
+  oauth2:
+    authorization:
+      check-token-access: http://localhost:8001/oauth/check_token

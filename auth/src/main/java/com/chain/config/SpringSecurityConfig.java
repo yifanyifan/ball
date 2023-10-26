@@ -43,7 +43,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()           // 禁用 CSRF（跨站请求伪造）防护功能。
                 .authorizeRequests()    //开始对请求进行授权配置。
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()   //允许所有的端点请求匹配器。
-                .antMatchers("/oauth/token", "/rsa/publicKey", "/user/getAccessToken").permitAll()  //对指定的路径进行授权配置，允许所有用户访问。
+                .antMatchers("/oauth/token", "/oauth/check_token", "/rsa/publicKey", "/user/getAccessToken").permitAll()  //对指定的路径进行授权配置，允许所有用户访问。
                 .anyRequest().authenticated();  //对其他所有请求进行身份验证。
     }
 }

@@ -1,4 +1,4 @@
-package com.chain.auth;/*
+package com.chain.component;/*
 package com.metadata.train.gateway.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

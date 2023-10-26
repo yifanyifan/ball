@@ -1,4 +1,4 @@
-package com.chain.auth;
+package com.chain.auth.authorizationManager;
 
 import cn.hutool.core.convert.Convert;
 import com.chain.common.Constant;

@@ -10,9 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Jwt内容增强器
- * 自定义的实现了 TokenEnhancer 接口的类，用于对 JWT 访问令牌进行增强操作，比如往JWT中添加自定义信息的话，比如说登录用户的ID
- * Created by macro on 2019/10/8.
+ * Jwt内容增强器，比如往JWT中添加自定义信息的话，比如说登录用户的ID
  */
 public class JwtTokenEnhancer implements TokenEnhancer {
     /**
@@ -28,8 +26,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
         //把用户ID设置到JWT中
         Map<String, Object> info = new HashMap<>();
-        info.put("id", securityUser.getId());
-        info.put("client_id", securityUser.getClientId());
+        info.put("id" , securityUser.getId());
+        info.put("client_id" , securityUser.getClientId());
         //将 info 中的额外信息添加到访问令牌中。
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
 

@@ -183,3 +183,7 @@ seata:
       namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
       #要读取的配置文件在 Nacos 上的 ID，这里是 seataServer.properties。
       data-id: seataServer.properties
+security:
+  oauth2:
+    authorization:
+      check-token-access: http://localhost:8001/oauth/check_token
