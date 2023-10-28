@@ -40,7 +40,7 @@ public class TradingServiceImpl extends ServiceImpl<TradingMapper, Trading> impl
     public boolean testTrading(Trading trading) throws Exception {
         System.out.println("xid_order1:" + RootContext.getXID());
         List<Trading> tradingList = tradingMapper.testIn(DateUtil.parse("2023-07-07 17:02:03", "yyyy-MM-dd HH:mm:ss"), DateUtil.parse("2023-07-08 23:00:00", "yyyy-MM-dd HH:mm:ss"));
-        //super.save(trading);
+        super.save(trading);
         RoleDTO roleDTO = new RoleDTO();
         roleDTO.setName("dddddddddddddddddddddddd");
         ResultEntity<Boolean> a = ruleFeign.create(roleDTO);

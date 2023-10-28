@@ -46,6 +46,7 @@ public class UserService implements UserDetailsService {
         }
         userDTO.setClientId(clientId);
         SecurityUser securityUser = new SecurityUser(userDTO);
+
         if (!securityUser.isEnabled()) {
             throw new DisabledException(Constant.ACCOUNT_DISABLED);
         } else if (!securityUser.isAccountNonLocked()) {

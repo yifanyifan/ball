@@ -17,9 +17,7 @@ import reactor.core.publisher.Mono;
 import java.text.ParseException;
 
 /**
- * 全局过滤器AuthGlobalFilter
- * 当鉴权通过后将JWT令牌中的用户信息解析出来，然后存入请求的Header中，这样后续服务就不需要解析JWT令牌了，可以直接从请求的Header中获取到用户信息。
- * 将登录用户的JWT转化成用户信息的全局过滤器
+ * 全局过滤器，当鉴权管理器通过后，进入全局过滤器将JWT令牌中的用户信息解析出来，然后存入请求的Header中
  */
 @Component
 @Slf4j
@@ -39,7 +37,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             //使用JWSObject类解析令牌字符串，获取其中的用户信息，并将用户信息设置到请求的头部中，使用名为Constant.USER_TOKEN_HEADER的头部。
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
-            logger.info("======================>AuthGlobalFilter.filter() user:{}" , userStr);
+            logger.info("======================>全局拦截器GlobalFilter 用户信息:{}" , userStr);
             ServerHttpRequest request = exchange.getRequest().mutate().header(Constant.USER_TOKEN_HEADER, userStr).build();
             //使用mutate方法创建一个新的请求，将用户信息设置到头部，并构建新的ServerWebExchange对象。
             exchange = exchange.mutate().request(request).build();

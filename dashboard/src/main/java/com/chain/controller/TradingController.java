@@ -8,6 +8,7 @@ import com.chain.validator.groups.Add;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sun.security.util.SecurityConstants;
 
 /**
  * 历史委托表 控制器
@@ -34,13 +36,12 @@ public class TradingController extends BaseController<Trading> {
     /**
      * 添加历史委托表
      */
-    @PostMapping("/test")
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
+    @PostMapping("/addTrading")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_CREATE')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "添加历史委托表", response = ResultEntity.class)
     public ResultEntity<Boolean> addTrading(@Validated(Add.class) @RequestBody Trading trading) throws Exception {
         boolean flag = tradingService.testTrading(trading);
         return ResultEntity.success(flag);
     }
-
 }
 

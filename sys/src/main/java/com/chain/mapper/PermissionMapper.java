@@ -27,7 +27,7 @@ public interface PermissionMapper extends BaseMapper<Permission> {
      * @param roleList
      * @return
      */
-    List<Permission> getPermissionByRole(@Param("params") List<Role> roleList);
+    List<Map<String, String>> getPermissionByRole(@Param("params") List<Role> roleList);
 
     /**
      * 获取所有URL+名称集合

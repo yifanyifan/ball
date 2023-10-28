@@ -4,19 +4,21 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import com.chain.validator.groups.Update;
 
 /**
- * 
- *
  * @author 易樊
  * @since 2023-07-17
  */
@@ -34,4 +36,7 @@ public class RolePermission implements Serializable {
     @NotNull(message = "不能为空")
     private Long permissionId;
 
+    @ApiModelProperty("鉴权类型(用,分隔)：CREATE,UPDATE,READ,DELETE")
+    @NotNull(message = "不能为空")
+    private String authorityType;
 }

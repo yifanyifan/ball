@@ -73,6 +73,12 @@
             <artifactId>validation-api</artifactId>
         </dependency>
 
+        <!-- 鉴权 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

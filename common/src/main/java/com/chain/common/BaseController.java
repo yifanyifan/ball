@@ -10,6 +10,7 @@ import com.chain.validator.groups.Update;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_CREATE')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-新增", httpMethod = "POST", response = ResultEntity.class)
     public ResultEntity add(@Validated(Add.class) @RequestBody S entity) {
         try {
@@ -55,6 +57,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @PutMapping("/edit")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_UPDATE')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-修改", httpMethod = "PUT", response = ResultEntity.class)
     public ResultEntity edit(@Validated(Update.class) @RequestBody S entity) {
         try {
@@ -69,6 +72,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @DeleteMapping("/id/{id}")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_DELETE')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-删除", httpMethod = "DELETE", response = ResultEntity.class)
     public ResultEntity deleteById(@PathVariable("id") Long id) {
         try {
@@ -83,6 +87,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @GetMapping("/id/{id}")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_READ')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-通过ID查询单条记录", notes = "基础功能-通过ID查询单条记录", httpMethod = "GET", response = ResultEntity.class)
     public ResultEntity queryById(@PathVariable("id") Long id) {
         try {
@@ -97,6 +102,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @PostMapping("/queryByParam")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_READ')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-条件查询", httpMethod = "POST", response = ResultEntity.class)
     public ResultEntity queryByParam(@RequestBody S entity) {
         try {
@@ -128,6 +134,7 @@ public abstract class BaseController<S> {
 
     @ResponseBody
     @PostMapping("/queryPageByParam")
+    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_READ')) or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "基础功能-条件查询分页", httpMethod = "POST", response = ResultEntity.class)
     public ResultEntity baseQueryPageByParam(Page<S> page, @RequestBody S entity) {
         try {
@@ -157,4 +164,12 @@ public abstract class BaseController<S> {
         }
     }
 
+
+    /**
+     * 判断当前接口是否有permissionName权限
+     */
+    public String getRequiredAuthority(String permissionName) {
+        String entityName = this.getClass().getSimpleName().replace("Controller", "");
+        return permissionName.replace("ENTITY", entityName);
+    }
 }
