@@ -10,13 +10,13 @@ import com.chain.common.Constant;
 import com.chain.common.ResultEntity;
 import com.chain.common.ResultEntityEnum;
 import com.chain.common.TrainException;
-import com.chain.entity.Role;
+import com.chain.dto.UserDTO;
 import com.chain.entity.User;
 import com.chain.feign.AuthCilents;
 import com.chain.mapper.UserMapper;
 import com.chain.service.LoginService;
 import com.chain.service.RedisService;
-import com.chain.service.RoleService;
+import com.chain.service.UserService;
 import com.nimbusds.jose.JWSObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,9 +42,9 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private RedisService redisService;
+    private UserService userService;
     @Autowired
-    private RoleService roleService;
+    private RedisService redisService;
 
     @Override
     public ResultEntity login(String username, String password, HttpServletRequest request) throws Exception {
@@ -53,7 +52,7 @@ public class LoginServiceImpl implements LoginService {
             return ResultEntity.failed("用户名或密码不能为空！");
         }
         Map<String, String> params = new HashMap<>();
-        //当前Oauth2客户端（Client Details）请求访问认证服务器时的身份验证信息, 是用于客户端与认证服务器之间的通信, 与用户登录的密码是分开的概念。
+        //进行认证，当前Oauth2客户端（Client Details）请求访问认证服务器时的身份验证信息, 是用于客户端与认证服务器之间的通信, 与用户登录的密码是分开的概念。
         params.put("client_id", Constant.ADMIN_CLIENT_ID);
         params.put("client_secret", Constant.ADMIN_CLIENT_PASSWORD);
         params.put("grant_type", "password");
@@ -67,10 +66,9 @@ public class LoginServiceImpl implements LoginService {
             JWSObject jwsObject = JWSObject.parse(realToken);
             String userStr = jwsObject.getPayload().toString();
             JSONObject userJsonObject = JSONObject.parseObject(userStr);
-            User user = userMapper.selectById(userJsonObject.getString("id"));
-            List<Role> roleList = roleService.getRoleByUser(user.getId());
-            user.setRoleList(roleList);
-            redisService.set(Constant.REDIS_UMS + ":" + user.getId(), JSON.toJSONString(user), Constant.REDIS_UMS_EXPIRE);
+
+            UserDTO userDTO = userService.loadUserByUsername(userJsonObject.getString("user_name"));
+            redisService.set(Constant.REDIS_UMS + ":" + userDTO.getId(), JSON.toJSONString(userDTO), Constant.REDIS_UMS_EXPIRE);
         }
         return resultEntity;
     }
