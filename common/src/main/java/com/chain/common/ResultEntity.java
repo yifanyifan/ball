@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class ResultEntity<T> implements Serializable {
     private static final long serialVersionUID = -5835280423988735793L;
     private Integer code = 20000;
-    private String status;
+    private String msg;
     private T data;
 
     public static <T> ResultEntity<T> success() {
@@ -33,25 +33,19 @@ public class ResultEntity<T> implements Serializable {
         return new ResultEntity<T>(ResultEntityEnum.FAILED.getCode(), message, null);
     }
 
+    public static <T> ResultEntity<T> failed(String message, T data) {
+        return new ResultEntity<T>(ResultEntityEnum.FAILED.getCode(), message, data);
+    }
+
     public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode) {
         return new ResultEntity<T>(errorCode.getCode(), errorCode.getMsg(), null);
     }
 
-    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode, String message) {
-        return new ResultEntity<T>(errorCode.getCode(), message, null);
+    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode, T data) {
+        return new ResultEntity<T>(errorCode.getCode(), errorCode.getMsg(), data);
     }
 
-    /**
-     * 未登录返回结果
-     */
-    public static <T> ResultEntity<T> unauthorized(T data) {
-        return new ResultEntity<T>(ResultEntityEnum.UNAUTHORIZED.getCode(), ResultEntityEnum.UNAUTHORIZED.getMsg(), data);
-    }
-
-    /**
-     * 未授权返回结果
-     */
-    public static <T> ResultEntity<T> forbidden(T data) {
-        return new ResultEntity<T>(ResultEntityEnum.FORBIDDEN.getCode(), ResultEntityEnum.FORBIDDEN.getMsg(), data);
+    public static <T> ResultEntity<T> failed(ResultEntityEnum errorCode, String message, T data) {
+        return new ResultEntity<T>(errorCode.getCode(), message, data);
     }
 }

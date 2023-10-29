@@ -1,14 +1,12 @@
 package com.chain.config;
 
+import com.chain.common.BallException;
 import com.chain.common.Constant;
+import com.chain.common.ResultEntityEnum;
 import com.chain.dto.UserDTO;
 import com.chain.entity.SecurityUser;
 import com.chain.feign.UserCilents;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AccountExpiredException;
-import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,19 +40,19 @@ public class UserService implements UserDetailsService {
         }
 
         if (userDTO == null) {
-            throw new UsernameNotFoundException(Constant.USERNAME_PASSWORD_ERROR);
+            throw new BallException(ResultEntityEnum.USERNAME_PASSWORD_ERROR);
         }
         userDTO.setClientId(clientId);
         SecurityUser securityUser = new SecurityUser(userDTO);
 
         if (!securityUser.isEnabled()) {
-            throw new DisabledException(Constant.ACCOUNT_DISABLED);
+            throw new BallException(ResultEntityEnum.ACCOUNT_DISABLED);
         } else if (!securityUser.isAccountNonLocked()) {
-            throw new LockedException(Constant.ACCOUNT_LOCKED);
+            throw new BallException(ResultEntityEnum.ACCOUNT_LOCKED);
         } else if (!securityUser.isAccountNonExpired()) {
-            throw new AccountExpiredException(Constant.ACCOUNT_EXPIRED);
+            throw new BallException(ResultEntityEnum.ACCOUNT_EXPIRED);
         } else if (!securityUser.isCredentialsNonExpired()) {
-            throw new CredentialsExpiredException(Constant.CREDENTIALS_EXPIRED);
+            throw new BallException(ResultEntityEnum.CREDENTIALS_EXPIRED);
         }
         return securityUser;
     }

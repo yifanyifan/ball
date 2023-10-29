@@ -6,10 +6,10 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.chain.auth.Oauth2TokenDto;
+import com.chain.common.BallException;
 import com.chain.common.Constant;
 import com.chain.common.ResultEntity;
 import com.chain.common.ResultEntityEnum;
-import com.chain.common.TrainException;
 import com.chain.dto.UserDTO;
 import com.chain.entity.Permission;
 import com.chain.entity.User;
@@ -85,14 +85,14 @@ public class LoginServiceImpl implements LoginService {
     public UserDTO getCurrentUser(HttpServletRequest request) {
         String userStr = request.getHeader(Constant.USER_TOKEN_HEADER);
         if (StrUtil.isEmpty(userStr)) {
-            throw new TrainException(ResultEntityEnum.UNAUTHORIZED);
+            throw new BallException(ResultEntityEnum.CREDENTIALS_EXPIRED);
         }
         User user = JSONUtil.toBean(userStr, User.class);
 
         //获取用户
         String redisUser = (String) redisService.get(Constant.REDIS_UMS + ":" + user.getId());
         if (StringUtils.isEmpty(redisUser)) {
-            throw new TrainException(Constant.CREDENTIALS_EXPIRED);
+            throw new BallException(ResultEntityEnum.CREDENTIALS_EXPIRED);
         }
         UserDTO userDTO = JSON.parseObject(redisUser, UserDTO.class);
         //获取菜单

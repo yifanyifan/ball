@@ -37,13 +37,13 @@ public class LoginController {
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public ResultEntity login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
-        try {
+    public ResultEntity login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws Exception {
+        /*try {*/
             return loginService.login(username, password, request);
-        } catch (Exception e) {
+       /* } catch (Exception e) {
             log.info(e.getMessage(), e);
             return ResultEntity.failed("登录异常" + e.getMessage());
-        }
+        }*/
     }
 
     @ApiOperation(value = "获取当前登录用户信息")

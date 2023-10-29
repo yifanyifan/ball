@@ -1,5 +1,6 @@
 package com.chain.config;
 
+import com.chain.config.exception.MyOAuth2ExceptionTranslator;
 import com.chain.config.jwt.JwtTokenEnhancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,8 +40,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private JwtTokenEnhancer jwtTokenEnhancer;
     @Autowired
     private DataSource dataSource;
-    @Autowired
-    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     /**
      * 配置Oauth2【客户端】（Client Details）请求访问【认证服务器】时身份验证信息
@@ -88,7 +87,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)  //配置身份验证管理器（authenticationManager），用于处理身份验证请求。
                 .userDetailsService(userService)                //配置加载用户信息的服务。
                 .accessTokenConverter(accessTokenConverter())   //配置访问令牌转换器。
-                .tokenEnhancer(enhancerChain);                  //配置令牌增强器，或指定 token 的存储方式。
+                .tokenEnhancer(enhancerChain)                  //配置令牌增强器，或指定 token 的存储方式。
+                .exceptionTranslator(new MyOAuth2ExceptionTranslator()); // 设置自定义的异常解析器
     }
 
     /**

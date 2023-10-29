@@ -1,6 +1,9 @@
 package com.chain.config.auth;
 
 import com.chain.common.Constant;
+import com.chain.config.auth.exception.MyExtendAccessDeniedHandler;
+import com.chain.config.auth.exception.MyExtendAuthenticationEntryPointHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +23,10 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Value("${security.oauth2.authorization.check-token-access}")
     private String checkTokenAccess;
+    @Autowired
+    private MyExtendAuthenticationEntryPointHandler myExtendAuthenticationEntryPointHandler;
+    @Autowired
+    private MyExtendAccessDeniedHandler myExtendAccessDeniedHandler;
 
     /**
      * 这个方法配置 HTTP 安全性，即定义哪些请求需要受保护，哪些请求允许公开访问
@@ -50,6 +57,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("res1").tokenServices(tokenServices());
+        resources.resourceId("res1").tokenServices(tokenServices())
+                .authenticationEntryPoint(myExtendAuthenticationEntryPointHandler)//token异常类重写
+                .accessDeniedHandler(myExtendAccessDeniedHandler);//权限不足异常类重写
     }
 }
