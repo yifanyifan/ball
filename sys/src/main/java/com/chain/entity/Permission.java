@@ -39,11 +39,9 @@ public class Permission implements Serializable {
     @ApiModelProperty("权限资源标识")
     private String authority;
 
-    @NotBlank(message = "访问路径不能为空")
     @ApiModelProperty("访问路径")
     private String url;
 
-    @NotBlank(message = "权限类型，menu:菜单;permission:权限不能为空")
     @ApiModelProperty("权限类型，menu:菜单;permission:权限")
     private String permissionType;
 

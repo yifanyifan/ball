@@ -26,4 +26,26 @@
         left join sys_user u on u.id = ur.user_id
         where u.id = #{param}
     </select>
+
+    <select id="getListByParentId" resultType="com.chain.entity.Permission">
+        select p.* from sys_permission p
+        where p.parent_id
+        <if test="parentId == null">
+            is null
+        </if>
+        <if test="parentId != null">
+            = #{parentId}
+        </if>
+
+    </select>
+
+    <select id="getListByParentIdAndRoleId" resultType="com.chain.entity.Permission">
+        select p.* from sys_permission p
+        left join sys_role_permission rp on p.id = rp.permission_id
+        where p.parent_id = #{parentId}
+        and rp.role_id in
+        <foreach collection='roles' open='(' close=')' separator=',' item='item'>
+            #{item}
+        </foreach>
+    </select>
 </mapper>

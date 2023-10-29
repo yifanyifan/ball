@@ -3,7 +3,9 @@ package com.chain.dto;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.List;
@@ -38,4 +40,24 @@ public class UserDTO implements Serializable {
 
     @ApiModelProperty("权限集合")
     private List<String> permissionList;
+
+    @ApiModelProperty("菜单集合（前端渲染用）")
+    private List<Menu> menuList;
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Menu {
+        private Long id;
+        private String name;
+        private String url;
+        private List<Menu> submenus;
+
+        public Menu(Long id, String name, String url) {
+            this.id = id;
+            this.name = name;
+            this.url = url;
+        }
+    }
 }

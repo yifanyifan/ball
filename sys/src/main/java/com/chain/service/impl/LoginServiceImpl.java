@@ -1,6 +1,6 @@
 package com.chain.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
@@ -11,21 +11,27 @@ import com.chain.common.ResultEntity;
 import com.chain.common.ResultEntityEnum;
 import com.chain.common.TrainException;
 import com.chain.dto.UserDTO;
+import com.chain.entity.Permission;
 import com.chain.entity.User;
 import com.chain.feign.AuthCilents;
+import com.chain.mapper.PermissionMapper;
 import com.chain.mapper.UserMapper;
 import com.chain.service.LoginService;
 import com.chain.service.RedisService;
 import com.chain.service.UserService;
 import com.nimbusds.jose.JWSObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 服务实现类
@@ -45,6 +51,8 @@ public class LoginServiceImpl implements LoginService {
     private UserService userService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private PermissionMapper permissionMapper;
 
     @Override
     public ResultEntity login(String username, String password, HttpServletRequest request) throws Exception {
@@ -74,19 +82,90 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public User getCurrentUser(HttpServletRequest request) {
+    public UserDTO getCurrentUser(HttpServletRequest request) {
         String userStr = request.getHeader(Constant.USER_TOKEN_HEADER);
         if (StrUtil.isEmpty(userStr)) {
             throw new TrainException(ResultEntityEnum.UNAUTHORIZED);
         }
-        User userDto = JSONUtil.toBean(userStr, User.class);
-        User user = JSON.parseObject((String) redisService.get(Constant.REDIS_UMS + ":" + userDto.getId()), User.class);
-        if (ObjectUtil.isNotEmpty(user)) {
-            return user;
-        } else {
-            user = userMapper.selectById(userDto.getId());
-            redisService.set(Constant.REDIS_UMS + ":" + user.getId(), JSON.toJSONString(user), Constant.REDIS_UMS_EXPIRE);
-            return user;
+        User user = JSONUtil.toBean(userStr, User.class);
+
+        //获取用户
+        String redisUser = (String) redisService.get(Constant.REDIS_UMS + ":" + user.getId());
+        if (StringUtils.isEmpty(redisUser)) {
+            throw new TrainException(Constant.CREDENTIALS_EXPIRED);
         }
+        UserDTO userDTO = JSON.parseObject(redisUser, UserDTO.class);
+        //获取菜单
+        List<Long> roleIdList = userDTO.getRoleDTOList().stream().map(i -> i.getId()).collect(Collectors.toList());
+        List<Permission> permissionList = permissionMapper.getListByParentId(null);
+        List<Long> permissionIdList = permissionList.stream().map(i -> i.getId()).collect(Collectors.toList());
+        List<UserDTO.Menu> menuList = get(roleIdList, permissionIdList);
+        //去除空菜单
+        menuList = menuList.stream().filter(i -> CollectionUtil.isNotEmpty(i.getSubmenus())).collect(Collectors.toList());
+        userDTO.setMenuList(menuList);
+
+        return userDTO;
+    }
+
+    /**
+     * 递归获取菜单
+     */
+    public List<UserDTO.Menu> get(List<Long> roleIdList, List<Long> menuIdList) {
+        List<UserDTO.Menu> menuList = new ArrayList<>();
+        for (Long menuId : menuIdList) {
+            //包装
+            Permission permission = permissionMapper.selectById(menuId);
+            UserDTO.Menu menu = new UserDTO.Menu(permission.getId(), permission.getName(), permission.getUrl());
+
+            //判断子页面有没有权限
+            List<Permission> permissionList = permissionMapper.getListByParentIdAndRoleId(permission.getId(), roleIdList);
+            if (CollectionUtil.isNotEmpty(permissionList)) {
+                List<Long> permissionSubList = permissionList.stream().map(i -> i.getId()).collect(Collectors.toList());
+                List<UserDTO.Menu> menuListSub = get(roleIdList, permissionSubList);
+                menu.setSubmenus(menuListSub);
+            }
+            menuList.add(menu);
+        }
+
+        return menuList;
+
     }
 }
+
+
+/*
+//目前JWT数据
+{
+"user_name": "yifan",
+"scope": ["all"],
+"id": 2,
+"exp": 1698510835,
+"authorities": ["Trading_UPDATE", "TradingDetail_READ", "Trading_CREATE", "Trading_DELETE", "TradingDetail_UPDATE", "ROLE_YIFAN", "Trading_READ", "TradingDetail_CREATE", "TradingDetail_DELETE"],
+"jti": "ed6672a3-88c1-4ea7-9b26-18a1357513e0",
+"client_id": "admin-app"
+}
+
+//Redis 用户数据
+{
+"clientId": "client-app",
+"id": 2,
+"isEnable": true,
+"password": "$2a$10$b67pCcXbK2r/sfADJRw8/uLFDYkFJ8FEVmpO0Ku2Z65jVavu4WTpW",
+"permissionList": [
+"Trading_CREATE",
+"Trading_UPDATE",
+"Trading_READ",
+"Trading_DELETE",
+"TradingDetail_CREATE",
+"TradingDetail_UPDATE",
+"TradingDetail_READ",
+"TradingDetail_DELETE"
+],
+"roleDTOList": [
+{
+"id": 2,
+"name": "ROLE_YIFAN"
+}
+],
+"username": "yifan"
+}*/

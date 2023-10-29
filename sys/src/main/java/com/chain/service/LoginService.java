@@ -2,7 +2,7 @@ package com.chain.service;
 
 
 import com.chain.common.ResultEntity;
-import com.chain.entity.User;
+import com.chain.dto.UserDTO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,5 +15,5 @@ import javax.servlet.http.HttpServletRequest;
 public interface LoginService {
     ResultEntity login(String username, String password, HttpServletRequest request) throws Exception;
 
-    User getCurrentUser(HttpServletRequest request);
+    UserDTO getCurrentUser(HttpServletRequest request);
 }

@@ -2,6 +2,7 @@ package com.chain.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.chain.common.ResultEntity;
+import com.chain.dto.UserDTO;
 import com.chain.entity.Role;
 import com.chain.entity.User;
 import com.chain.service.LoginService;
@@ -11,6 +12,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,16 +50,22 @@ public class LoginController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     @ResponseBody
     public ResultEntity getAdminInfo(HttpServletRequest request) throws Exception {
-        User user = loginService.getCurrentUser(request);
-        Map<String, Object> data = new HashMap<>();
-        data.put("username", user.getUsername());
-        data.put("menus", permissionService.getMenuList(user.getId()));
-        List<Role> roleList = roleService.getRoleByUser(user.getId());
-        if (CollUtil.isNotEmpty(roleList)) {
-            List<String> roles = roleList.stream().map(Role::getName).collect(Collectors.toList());
-            data.put("roles", roles);
-        }
+        UserDTO data = loginService.getCurrentUser(request);
         return ResultEntity.success(data);
+    }
+
+    @ApiOperation("退出")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultEntity logout() {
+
+        // 获取SecurityContextHolder中的用户id
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        User loginUser = (User) authentication.getPrincipal();
+//        Long id = loginUser.getId();
+        // 删除redis中的用户信息
+        //redis.deleteObject("login:"+id);
+        return ResultEntity.success("注销成功");
     }
 /*
 
