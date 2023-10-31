@@ -1,9 +1,9 @@
 package com.chain.controller;
 
 import com.chain.auth.Oauth2TokenDto;
-import com.chain.common.Constant;
+import com.chain.constant.Constant;
 import com.chain.common.ResultEntity;
-import com.chain.common.ResultEntityEnum;
+import com.chain.auth.ResultEntityEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

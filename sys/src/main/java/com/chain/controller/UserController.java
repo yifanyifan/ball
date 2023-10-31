@@ -1,6 +1,6 @@
 package com.chain.controller;
 
-import com.chain.common.BaseController;
+import com.chain.base.BaseController;
 import com.chain.dto.UserDTO;
 import com.chain.entity.User;
 import com.chain.service.UserService;

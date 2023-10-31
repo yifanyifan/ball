@@ -1,6 +1,6 @@
 package com.chain.config.auth;
 
-import com.chain.common.Constant;
+import com.chain.constant.Constant;
 import com.chain.config.auth.exception.MyExtendAccessDeniedHandler;
 import com.chain.config.auth.exception.MyExtendAuthenticationEntryPointHandler;
 import org.springframework.beans.factory.annotation.Autowired;

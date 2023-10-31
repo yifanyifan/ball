@@ -1,6 +1,6 @@
 package com.chain.param;
 
-import com.chain.common.BasePageParam;
+import com.chain.base.BasePageParam;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

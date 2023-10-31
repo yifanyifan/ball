@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import com.chain.common.BasePageParam;
+import com.chain.base.BasePageParam;
 
 /**
  * <pre>

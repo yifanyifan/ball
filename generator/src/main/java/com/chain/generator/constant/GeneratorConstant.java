@@ -97,7 +97,7 @@ public interface GeneratorConstant {
     /**
      * 自定义继承的Controller类全称，带包名
      */
-    String SUPER_CONTROLLER_CLASS = "com.chain.common.BaseController";
+    String SUPER_CONTROLLER_CLASS = "com.chain.base.BaseController";
     /**
      * 自定义继承的Service类全称，带包名
      */
@@ -109,7 +109,7 @@ public interface GeneratorConstant {
     /**
      * 分页参数父类全称，带包名
      */
-    String SUPER_PAGE_PARAM_CLASS = "com.chain.common.BasePageParam";
+    String SUPER_PAGE_PARAM_CLASS = "com.chain.base.BasePageParam";
     /**
      * 分页排序参数父类全称，带包名
      */
@@ -121,7 +121,7 @@ public interface GeneratorConstant {
     /**
      * 分页对象类全称，带包名
      */
-    String PAGING_CLASS = "com.chain.common.PageEntity";
+    String PAGING_CLASS = "com.chain.base.PageEntity";
     /**
      * 分页信息类全称，带包名
      */

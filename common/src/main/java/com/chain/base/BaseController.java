@@ -1,10 +1,11 @@
-package com.chain.common;
+package com.chain.base;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chain.common.ResultEntity;
 import com.chain.validator.groups.Add;
 import com.chain.validator.groups.Update;
 import io.swagger.annotations.ApiOperation;

@@ -1,8 +1,8 @@
 package com.chain.config;
 
 import com.chain.common.BallException;
-import com.chain.common.Constant;
-import com.chain.common.ResultEntityEnum;
+import com.chain.constant.Constant;
+import com.chain.auth.ResultEntityEnum;
 import com.chain.dto.UserDTO;
 import com.chain.entity.SecurityUser;
 import com.chain.feign.UserCilents;

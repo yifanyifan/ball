@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.chain.common;
+package com.chain.base;
 
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import io.swagger.annotations.ApiModel;

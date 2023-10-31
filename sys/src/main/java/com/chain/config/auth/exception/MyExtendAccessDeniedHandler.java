@@ -1,7 +1,7 @@
 package com.chain.config.auth.exception;
 
 import com.chain.common.ResultEntity;
-import com.chain.common.ResultEntityEnum;
+import com.chain.auth.ResultEntityEnum;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.chain.auth;
 
 import cn.hutool.core.util.StrUtil;
-import com.chain.common.Constant;
+import com.chain.constant.Constant;
 import com.nimbusds.jose.JWSObject;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;

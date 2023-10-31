@@ -4,7 +4,7 @@
 //import com.alibaba.fastjson.JSON;
 //import com.alibaba.fastjson.JSONObject;
 //import com.baomidou.mybatisplus.core.toolkit.Assert;
-//import com.chain.common.Constant;
+//import com.chain.constant.Constant;
 //import com.chain.dto.UserDTO;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.data.redis.core.RedisTemplate;

@@ -1,5 +1,6 @@
 package com.chain.common;
 
+import com.chain.auth.ResultEntityEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

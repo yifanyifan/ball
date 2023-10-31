@@ -1,4 +1,4 @@
-package com.chain.common;
+package com.chain.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,5 +1,7 @@
 package com.chain.common;
 
+import com.chain.auth.ResultEntityEnum;
+
 /**
  * 自定义API异常
  * Created by macro on 2020/2/27.

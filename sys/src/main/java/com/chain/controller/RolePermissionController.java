@@ -1,6 +1,6 @@
 package com.chain.controller;
 
-import com.chain.common.BaseController;
+import com.chain.base.BaseController;
 import com.chain.entity.RolePermission;
 import com.chain.service.RolePermissionService;
 import io.swagger.annotations.Api;

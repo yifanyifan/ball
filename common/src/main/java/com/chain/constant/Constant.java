@@ -1,4 +1,4 @@
-package com.chain.common;
+package com.chain.constant;
 
 public interface Constant {
     //后台管理client认证
