@@ -3,7 +3,6 @@ package com.chain.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.dto.RoleDTO;
@@ -19,10 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 服务实现类
@@ -52,15 +48,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 //加载用户角色
                 List<RoleDTO> roleDTOList = DataUtil.toBeanList(roleList, RoleDTO.class);
                 userDTO.setRoleDTOList(roleDTOList);
-
-                //加载用户权限
-                List<Map<String, String>> permissionList = permissionMapper.getPermissionByRole(roleList);
-                System.out.println(JSON.toJSONString(permissionList));
-                List<String> result = permissionList.stream().flatMap(map -> {
-                    String[] typeArray = map.get("types").split(",");
-                    return Arrays.stream(typeArray).map(type -> map.get("authority") + "_" + type);
-                }).collect(Collectors.toList());
-                userDTO.setPermissionList(result);
             }
         }
         return userDTO;

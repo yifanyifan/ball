@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 历史委托表 控制器
  *
@@ -37,7 +39,7 @@ public class TradingController extends BaseController<Trading> {
     @PostMapping("/addTrading")
     @PreAuthorize("#root.this.getRequiredAuthority('ENTITY_CREATE') or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "添加历史委托表", response = ResultEntity.class)
-    public ResultEntity<Boolean> addTrading(@Validated(Add.class) @RequestBody Trading trading) throws Exception {
+    public ResultEntity<Boolean> addTrading(@Validated(Add.class) @RequestBody Trading trading, HttpServletRequest request) throws Exception {
         boolean flag = tradingService.testTrading(trading);
         return ResultEntity.success(flag);
     }

@@ -3,9 +3,10 @@ package com.chain.init;
 import com.chain.mapper.RolePermissionMapper;
 import com.chain.service.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,17 +15,15 @@ import java.util.stream.Collectors;
 import static com.chain.constant.Constant.REDIS_RESOURCE_ROLE;
 
 @Component
-public class RoleMenuRedisInit {
+public class RoleMenuRedisInit implements ApplicationRunner {
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
-    @Autowired
-    private RedisUtils redisUtils;
 
     /**
      * 初始化 用户和菜单 集合
      */
-    @PostConstruct
-    public void init() {
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
         // 1.读取所有权限-菜单标识C/R/U/D
         List<Map<String, Object>> all = rolePermissionMapper.getAllRoleAndPermission();
         // 2.分组处理 Map<角色, Map<菜单,CRUD接口权限>>
@@ -39,7 +38,7 @@ public class RoleMenuRedisInit {
                 )
         ));
         obj3.entrySet().forEach(i -> {
-            redisUtils.hSetAll(REDIS_RESOURCE_ROLE+i.getKey(), i.getValue());
+            RedisUtils.hSetAll(REDIS_RESOURCE_ROLE + i.getKey(), i.getValue());
         });
     }
 }

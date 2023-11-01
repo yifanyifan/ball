@@ -50,8 +50,6 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserService userService;
     @Autowired
-    private RedisUtils redisUtils;
-    @Autowired
     private PermissionMapper permissionMapper;
 
     @Override
@@ -76,7 +74,7 @@ public class LoginServiceImpl implements LoginService {
             JSONObject userJsonObject = JSONObject.parseObject(userStr);
 
             UserDTO userDTO = userService.loadUserByUsername(userJsonObject.getString("user_name"));
-            redisUtils.set(Constant.REDIS_UMS + ":" + userDTO.getId(), JSON.toJSONString(userDTO), Constant.REDIS_UMS_EXPIRE);
+            RedisUtils.set(Constant.REDIS_UMS + ":" + userDTO.getId(), JSON.toJSONString(userDTO), Constant.REDIS_UMS_EXPIRE);
         }
         return resultEntity;
     }
@@ -90,7 +88,7 @@ public class LoginServiceImpl implements LoginService {
         User user = JSONUtil.toBean(userStr, User.class);
 
         //获取用户
-        String redisUser = (String) redisUtils.get(Constant.REDIS_UMS + ":" + user.getId());
+        String redisUser = (String) RedisUtils.get(Constant.REDIS_UMS + ":" + user.getId());
         if (StringUtils.isEmpty(redisUser)) {
             throw new BallException(ResultEntityEnum.CREDENTIALS_EXPIRED);
         }

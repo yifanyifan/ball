@@ -38,9 +38,6 @@ public class UserDTO implements Serializable {
     @ApiModelProperty("角色集合")
     private List<RoleDTO> roleDTOList;
 
-    @ApiModelProperty("权限集合")
-    private List<String> permissionList;
-
     @ApiModelProperty("菜单集合（前端渲染用）")
     private List<Menu> menuList;
 
