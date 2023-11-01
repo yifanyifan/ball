@@ -42,7 +42,6 @@ public class SecurityUser implements UserDetails {
         if (userDto.getRoleDTOList() != null) {
             authorities = new ArrayList<>();
             userDto.getRoleDTOList().forEach(item -> authorities.add(new SimpleGrantedAuthority(item.getName())));
-            userDto.getPermissionList().forEach(item -> authorities.add(new SimpleGrantedAuthority(item)));
         }
     }
 

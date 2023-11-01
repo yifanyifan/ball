@@ -6,18 +6,23 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.common.ResultEntity;
+import com.chain.constant.Constant;
+import com.chain.service.RedisUtils;
 import com.chain.validator.groups.Add;
 import com.chain.validator.groups.Update;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class BaseController<S> {
@@ -165,12 +170,21 @@ public abstract class BaseController<S> {
         }
     }
 
+    @Autowired
+    RedisUtils redisUtils;
 
     /**
      * 判断当前接口是否有permissionName权限
      */
-    public String getRequiredAuthority(String permissionName) {
+    public boolean getRequiredAuthority(String permissions) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String entityName = this.getClass().getSimpleName().replace("Controller", "");
-        return permissionName.replace("ENTITY", entityName);
+
+        Boolean hasRole = authentication.getAuthorities().stream().anyMatch(i -> {
+            String value = (String) redisUtils.hGet(Constant.REDIS_RESOURCE_ROLE + i.getAuthority(), entityName);
+            return Arrays.asList(value.split(",")).stream().anyMatch(k -> permissions.equals("ENTITY_" + k));
+        });
+
+        return hasRole;
     }
 }

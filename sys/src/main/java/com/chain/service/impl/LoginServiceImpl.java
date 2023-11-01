@@ -17,7 +17,7 @@ import com.chain.feign.AuthCilents;
 import com.chain.mapper.PermissionMapper;
 import com.chain.mapper.UserMapper;
 import com.chain.service.LoginService;
-import com.chain.service.RedisService;
+import com.chain.service.RedisUtils;
 import com.chain.service.UserService;
 import com.nimbusds.jose.JWSObject;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserService userService;
     @Autowired
-    private RedisService redisService;
+    private RedisUtils redisUtils;
     @Autowired
     private PermissionMapper permissionMapper;
 
@@ -76,7 +76,7 @@ public class LoginServiceImpl implements LoginService {
             JSONObject userJsonObject = JSONObject.parseObject(userStr);
 
             UserDTO userDTO = userService.loadUserByUsername(userJsonObject.getString("user_name"));
-            redisService.set(Constant.REDIS_UMS + ":" + userDTO.getId(), JSON.toJSONString(userDTO), Constant.REDIS_UMS_EXPIRE);
+            redisUtils.set(Constant.REDIS_UMS + ":" + userDTO.getId(), JSON.toJSONString(userDTO), Constant.REDIS_UMS_EXPIRE);
         }
         return resultEntity;
     }
@@ -90,7 +90,7 @@ public class LoginServiceImpl implements LoginService {
         User user = JSONUtil.toBean(userStr, User.class);
 
         //获取用户
-        String redisUser = (String) redisService.get(Constant.REDIS_UMS + ":" + user.getId());
+        String redisUser = (String) redisUtils.get(Constant.REDIS_UMS + ":" + user.getId());
         if (StringUtils.isEmpty(redisUser)) {
             throw new BallException(ResultEntityEnum.CREDENTIALS_EXPIRED);
         }
@@ -131,41 +131,3 @@ public class LoginServiceImpl implements LoginService {
 
     }
 }
-
-
-/*
-//目前JWT数据
-{
-"user_name": "yifan",
-"scope": ["all"],
-"id": 2,
-"exp": 1698510835,
-"authorities": ["Trading_UPDATE", "TradingDetail_READ", "Trading_CREATE", "Trading_DELETE", "TradingDetail_UPDATE", "ROLE_YIFAN", "Trading_READ", "TradingDetail_CREATE", "TradingDetail_DELETE"],
-"jti": "ed6672a3-88c1-4ea7-9b26-18a1357513e0",
-"client_id": "admin-app"
-}
-
-//Redis 用户数据
-{
-"clientId": "client-app",
-"id": 2,
-"isEnable": true,
-"password": "$2a$10$b67pCcXbK2r/sfADJRw8/uLFDYkFJ8FEVmpO0Ku2Z65jVavu4WTpW",
-"permissionList": [
-"Trading_CREATE",
-"Trading_UPDATE",
-"Trading_READ",
-"Trading_DELETE",
-"TradingDetail_CREATE",
-"TradingDetail_UPDATE",
-"TradingDetail_READ",
-"TradingDetail_DELETE"
-],
-"roleDTOList": [
-{
-"id": 2,
-"name": "ROLE_YIFAN"
-}
-],
-"username": "yifan"
-}*/

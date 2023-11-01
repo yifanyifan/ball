@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chain.mapper.RolePermissionMapper">
 
+    <select id="getAllRoleAndPermission" resultType="java.util.Map">
+        select r.name, rp.authority_type, p.authority from sys_role r
+        left join sys_role_permission rp on r.id = rp.role_id
+        left join sys_permission p on rp.permission_id = p.id
+        where p.authority is not null
+        and r.`name` in ('ROLE_ADMIN','ROLE_YIFAN')
+    </select>
 </mapper>

@@ -35,7 +35,7 @@ public class TradingController extends BaseController<Trading> {
      * 添加历史委托表
      */
     @PostMapping("/addTrading")
-    @PreAuthorize("hasAnyAuthority(#root.this.getRequiredAuthority('ENTITY_CREATE')) or hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize("#root.this.getRequiredAuthority('ENTITY_CREATE') or hasAnyAuthority('ROLE_ADMIN')")
     @ApiOperation(value = "添加历史委托表", response = ResultEntity.class)
     public ResultEntity<Boolean> addTrading(@Validated(Add.class) @RequestBody Trading trading) throws Exception {
         boolean flag = tradingService.testTrading(trading);

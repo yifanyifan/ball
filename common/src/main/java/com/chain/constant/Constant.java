@@ -9,8 +9,8 @@ public interface Constant {
     String REDIS_UMS = "sys:ums";
     //Redis用户登录信息有效期毫秒
     Long REDIS_UMS_EXPIRE = 18000l;
-    //Redis资源角色信息
-    String REDIS_RESOURCE_ROLE = "sys:resourceRolesMap";
+    //Redis角色资源信息
+    String REDIS_RESOURCE_ROLE = "sys:roles:";
 
     //JWT存储权限前缀
     String AUTHORITY_PREFIX = "ROLE_";
