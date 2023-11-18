@@ -9,4 +9,12 @@
         where p.authority is not null
         and r.`name` in ('ROLE_ADMIN','ROLE_YIFAN')
     </select>
+
+    <select id="selectByRoleId" resultType="com.chain.entity.RolePermission">
+        select rp.* from sys_role_permission rp where rp.role_id = #{roleId}
+    </select>
+
+    <delete id="deleteByRole">
+        delete from sys_role_permission where role_id = #{roleId}
+    </delete>
 </mapper>

@@ -18,12 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     /**
      * PasswordEncoder 是 Spring Security 提供的接口，用于对密码进行安全的哈希编码。
-     * BCryptPasswordEncoder 是 Spring Security 提供的一种具体的实现，它使用 BCrypt 哈希算法来进行密码的编码和验证。
+     *  (已转到公共common模块中)
      */
-    @Bean
+    /*@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
+    }*/
 
     /**
      * 在 Spring Security 中，AuthenticationManager 是一个核心接口，用于处理身份验证相关的操作。

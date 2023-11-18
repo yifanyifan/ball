@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -179,6 +180,9 @@ public abstract class BaseController<S> {
 
         Boolean hasRole = authentication.getAuthorities().stream().anyMatch(i -> {
             String value = (String) RedisUtils.hGet(Constant.REDIS_RESOURCE_ROLE + i.getAuthority(), entityName);
+            if(StringUtils.isEmpty(value)){
+                return false;
+            }
             return Arrays.asList(value.split(",")).stream().anyMatch(k -> permissions.equals("ENTITY_" + k));
         });
 

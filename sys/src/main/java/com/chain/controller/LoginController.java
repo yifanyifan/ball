@@ -1,10 +1,7 @@
 package com.chain.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import com.chain.common.ResultEntity;
 import com.chain.dto.UserDTO;
-import com.chain.entity.Role;
-import com.chain.entity.User;
 import com.chain.service.LoginService;
 import com.chain.service.PermissionService;
 import com.chain.service.RoleService;
@@ -12,15 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -37,13 +28,13 @@ public class LoginController {
     @ApiOperation("登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public ResultEntity login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) throws Exception {
-        /*try {*/
+    public ResultEntity login(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "password", required = false) String password, HttpServletRequest request) throws Exception {
+        try {
             return loginService.login(username, password, request);
-       /* } catch (Exception e) {
+        } catch (Exception e) {
             log.info(e.getMessage(), e);
             return ResultEntity.failed("登录异常" + e.getMessage());
-        }*/
+        }
     }
 
     @ApiOperation(value = "获取当前登录用户信息")

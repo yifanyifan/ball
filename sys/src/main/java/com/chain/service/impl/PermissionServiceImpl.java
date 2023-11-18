@@ -1,9 +1,11 @@
 package com.chain.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.entity.Permission;
 import com.chain.mapper.PermissionMapper;
 import com.chain.service.PermissionService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,4 +39,17 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return permissionMapper.getMenuList(id);
     }
 
+    /**
+     * 新增/编辑用户
+     */
+    @Override
+    @GlobalTransactional(rollbackFor = Exception.class)
+    public boolean save(Permission permission) {
+        if (ObjectUtil.isEmpty(permission.getId())) {
+            permissionMapper.insert(permission);
+        } else {
+            permissionMapper.updateById(permission);
+        }
+        return true;
+    }
 }

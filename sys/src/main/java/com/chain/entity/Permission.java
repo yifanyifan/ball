@@ -28,7 +28,6 @@ import com.chain.validator.groups.Update;
 public class Permission implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "资源名称不能为空")
     @ApiModelProperty("资源名称")
     private String name;
 

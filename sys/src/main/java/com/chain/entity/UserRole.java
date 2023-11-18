@@ -28,6 +28,10 @@ import com.chain.validator.groups.Update;
 public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("主键")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
+
     @NotNull(message = "用户ID不能为空")
     @ApiModelProperty("用户ID")
     private Long userId;

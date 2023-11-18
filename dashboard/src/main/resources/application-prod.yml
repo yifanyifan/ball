@@ -1,0 +1,189 @@
+spring:
+  #  datasource:
+  #    driver-class-name: com.mysql.jdbc.Driver
+  #    url: jdbc:mysql://192.168.52.10:3306/ball_dashboard?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+  #    # url: jdbc:mysql://192.168.52.10:3306/ball_sys?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT&useSSL=false
+  #    username: root
+  #    password: Yifan123.
+  #    type: com.alibaba.druid.pool.DruidDataSource
+  #    druid:
+  #      #初始化大小
+  #      initialSize: 5
+  #      #最小值
+  #      minIdle: 5
+  #      #最大值
+  #      maxActive: 20
+  #      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+  #      maxWait: 60000
+  #      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+  #      timeBetweenEvictionRunsMillis: 60000
+  #      #配置一个连接在池中最小生存的时间
+  #      minEvictableIdleTimeMillis: 300000
+  #      validationQuery: SELECT 1 FROM DUAL
+  #      testWhileIdle: true
+  #      testOnBorrow: false
+  #      testOnReturn: false
+  #      poolPreparedStatements: true
+  #      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
+  #      #'wall'用于防火墙，SpringBoot中没有log4j，我改成了log4j2
+  #      filters: stat,wall,log4j2
+  #      #最大PSCache连接
+  #      maxPoolPreparedStatementPerConnectionSize: 20
+  #      useGlobalDataSourceStat: true
+  #      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+  #      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  #      # 配置StatFilter
+  #      web-stat-filter:
+  #        #默认为false，设置为true启动
+  #        enabled: true
+  #        url-pattern: "/*"
+  #        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+  #      #配置StatViewServlet
+  #      stat-view-servlet:
+  #        url-pattern: "/druid/*"
+  #        #允许那些ip
+  #        allow: 127.0.0.1
+  #        login-username: admin
+  #        login-password: 123456
+  #        #禁止那些ip
+  #        deny: 192.168.1.102
+  #        #是否可以重置
+  #        reset-enable: true
+  #        #启用
+  #        enabled: true
+  shardingsphere:
+    props:
+      sql.show: true #是否输出sql
+    datasource:
+      names: ds0 #指定数据源 名称可以自定义，注意：名称要跟后面的配置一致
+      ds0: #配置数据源的连接信息
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://mysql-java:3306/ball_dashboard?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+        username: root
+        password: Yifan123.
+    sharding:
+      # 默认数据源
+      default-data-source-name: ds0
+      tables:
+        #逻辑表名
+        db_trading:
+          key-generator:
+            colun: id #主键
+          #分表数据节点
+          actual-data-nodes: ds0.db_trading_$->{2022..2023}$->{(1..12).collect{t -> t.toString().padLeft(2,'0')}}    #数据节点,均匀分布
+          #分库策略
+          #database-strategy:
+          #  standard:
+          #    algorithm-class-name: com.chain.utils.HintShardingKeyAlgorithm
+          #分表策略
+          table-strategy:
+            #复合分片策略
+            complex:
+              sharding-columns: commission_time,category
+              # 精确+范围分片算法
+              algorithm-class-name: com.chain.config.shardingjdbc.ComplexShardingAlgorithm
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: root
+    password: root
+    #虚拟host 可以不设置,使用server默认host
+    virtual-host: /yifan
+    #开启 confirm 确认机制
+    publisher-confirm-type: correlated
+    #开启 return 确认机制
+    publisher-returns: true
+  main:
+    # 只使用注册一个bean 会有多个dataSource,不设置会抛出异常启动失败
+    allow-bean-definition-overriding: true
+  redis:
+    database: 4
+    host: redis-java
+    port: 6379
+    password: Yifan123.
+    jedis:
+      pool:
+        max-wait: 3600
+        max-active: 1
+        max-idle: 1
+        min-idle: 1
+    timeout: 3600
+  cloud:
+    #熔断限流
+    sentinel:
+      transport:
+        # 添加sentinel的控制台地址
+        dashboard: sentinel:8858
+        # 指定应用与Sentinel控制台交互的端口，应用本地会起一个该端口占用的HttpServer
+        port: 8719
+      # 默认将调用链路收敛，需要打开才可以进行链路流控
+      web-context-unify: false
+      enabled: true
+      filter:
+        # 默认收敛所有URL的入口Context，因此链路限流此时不生效，若使用链路流控模式则设置为false
+        enabled: true
+#Mybatis配置
+mybatis-plus:
+  # 搜索指定包别名
+  type-aliases-package: com.chain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapper-locations: classpath*:mapper/*.xml
+#熔断/降级
+feign:
+  sentinel:
+    enabled: true
+#Feign默认超时时间为1s，这里可以进行延长
+ribbon:
+  ConnectTimeout: 5000
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下，两端连接所用的时间
+  ReadTimeout:  5000
+#分布式事务
+seata:
+  enabled: true
+  #启用自动代理数据源，它会自动对数据源进行代理以实现分布式事务的管理。
+  enableAutoDataSourceProxy: true
+  #数据源代理模式使用AT模式(默认使用AT模式)
+  data-source-proxy-mode: AT
+  #配置事务分组，用于标识事务所属的分组。要与客户端配置的事务分组一致。
+  tx-service-group: 'test_tx_group'
+  #配置 Seata 服务的相关信息，包括事务分组映射。
+  service:
+    #配置事务分组映射表，将事务分组映射到实际的 Seata 服务集群。
+    vgroup-mapping:
+      #将名为 "test_tx_group" 的事务分组映射到名为 "default" 的 Seata 服务集群。
+      test_tx_group: 'default'
+      #配置 Seata 服务集群的地址。
+      grouplist:
+        #将名为 "seata-server" 的服务映射到地址 "192.168.52.10:8091"。
+        seata-server: seata:8091
+  #配置 Seata 使用的注册中心，这里是 Nacos。
+  registry:
+    type: nacos
+    nacos:
+      #Nacos 服务器地址
+      server-addr: nacos:8848
+      #Nacos 分组名称
+      group: SEATA_GROUP
+      #Nacos 命名空间 ID
+      namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
+      #Seata 在 Nacos 注册的应用名（用的是Nacos上的哪个Seata的服务名）
+      application: seata-server
+      #集群名称
+      cluster: 'default'
+  #配置 Seata 使用的配置中心，这里同样是 Nacos。
+  config:
+    type: nacos
+    nacos:
+      #Nacos 服务器地址
+      server-addr: nacos:8848
+      #Nacos 分组名称
+      group: SEATA_GROUP
+      #Nacos 命名空间 ID
+      namespace: 5d2b98a6-2bf4-4d89-a2a6-a30fb281c2f5
+      #要读取的配置文件在 Nacos 上的 ID，这里是 seataServer.properties。
+      data-id: seataServer.properties
+security:
+  oauth2:
+    authorization:
+      check-token-access: http://auth:8001/oauth/check_token
