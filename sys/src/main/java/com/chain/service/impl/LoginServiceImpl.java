@@ -95,7 +95,7 @@ public class LoginServiceImpl implements LoginService {
         UserDTO userDTO = JSON.parseObject(redisUser, UserDTO.class);
         //获取菜单
         List<Long> roleIdList = userDTO.getRoleDTOList().stream().map(i -> i.getId()).collect(Collectors.toList());
-        List<Permission> permissionList = permissionMapper.getListByParentId(null);
+        List<Permission> permissionList = permissionMapper.getListByParentId(-1l);
         List<Long> permissionIdList = permissionList.stream().map(i -> i.getId()).collect(Collectors.toList());
         List<UserDTO.Menu> menuList = get(roleIdList, permissionIdList);
         //去除空菜单

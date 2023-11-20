@@ -21,4 +21,6 @@ public interface UserRoleMapper extends BaseMapper<UserRole> {
     List<UserRole> selectByUserId(@Param("userId") Long userId);
 
     void deleteByUserId(@Param("userId") Long userId);
+
+    List<UserRole> selectByRoleId(@Param("roleId") Serializable roleId);
 }

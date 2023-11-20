@@ -11,6 +11,9 @@
     <select id="selectByUserId" resultType="com.chain.entity.UserRole">
         select ur.* from sys_user_role ur where ur.user_id = #{userId}
     </select>
+    <select id="selectByRoleId" resultType="com.chain.entity.UserRole">
+        select ur.* from sys_user_role ur where ur.role_id = #{roleId}
+    </select>
 
     <delete id="deleteByUserId">
         delete from sys_user_role where user_id = #{userId}

@@ -1,22 +1,22 @@
 package com.chain.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import com.chain.validator.groups.Update;
 
 /**
- * 
- *
  * @author 易樊
  * @since 2023-07-17
  */
@@ -46,5 +46,17 @@ public class Permission implements Serializable {
 
     @ApiModelProperty("父级ID")
     private Long parentId;
+
+    @ApiModelProperty("是否有子菜单")
+    @TableField(exist = false)
+    private Boolean hasChildren;
+
+    @ApiModelProperty("父级名称")
+    @TableField(exist = false)
+    private String parentStr;
+
+    @ApiModelProperty("子菜单集合")
+    @TableField(exist = false)
+    private List<Permission> children;
 
 }

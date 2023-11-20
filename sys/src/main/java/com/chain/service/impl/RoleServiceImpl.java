@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chain.entity.Permission;
 import com.chain.entity.Role;
 import com.chain.entity.RolePermission;
+import com.chain.entity.UserRole;
 import com.chain.mapper.RoleMapper;
 import com.chain.mapper.RolePermissionMapper;
+import com.chain.mapper.UserRoleMapper;
 import com.chain.service.RoleService;
 import io.seata.spring.annotation.GlobalTransactional;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +35,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     private RoleMapper roleMapper;
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
+    @Autowired
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public List<Role> getRoleByUser(Long id) {
@@ -77,9 +82,16 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     /**
      * 删除用户
      */
+    @SneakyThrows
     @Override
     @GlobalTransactional(rollbackFor = Exception.class)
     public boolean removeById(Serializable id) {
+
+        List<UserRole> userRoleList = userRoleMapper.selectByRoleId(id);
+        if (CollectionUtil.isNotEmpty(userRoleList)) {
+            throw new RuntimeException("有用户关联，无法删除");
+        }
+
         roleMapper.deleteById(id);
         rolePermissionMapper.deleteByRole((Long) id);
 

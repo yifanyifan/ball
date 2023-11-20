@@ -43,4 +43,8 @@ public interface PermissionMapper extends BaseMapper<Permission> {
     List<Permission> getListByParentId(@Param("parentId") Long parentId);
 
     List<Permission> getListByParentIdAndRoleId(@Param("parentId") Long parentId, @Param("roles") List<Long> roles);
+
+    List<Permission> getPermissionByRoleId(@Param("roleId") Long roleId);
+
+    List<Permission> selectByParentId(@Param("parentId") Long parentId);
 }

@@ -16,4 +16,8 @@ public interface PermissionService extends IService<Permission> {
     Map<String, String> getUrlAndPermissionAll();
 
     List<Permission> getMenuList(Long id);
+
+    List<Permission> getPermissionByRoleId(Long roleId);
+
+    List<Permission> listTree(Permission queryWrapper) throws Exception;
 }

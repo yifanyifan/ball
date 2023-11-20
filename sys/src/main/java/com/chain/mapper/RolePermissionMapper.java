@@ -5,6 +5,7 @@ import com.chain.entity.RolePermission;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,6 @@ public interface RolePermissionMapper extends BaseMapper<RolePermission> {
     List<RolePermission> selectByRoleId(@Param("roleId") Long roleId);
 
     void deleteByRole(@Param("roleId") Long roleId);
+
+    List<RolePermission> selectByPermissionIdList(@Param("permissionIdList") List<Long> permissionIdList);
 }

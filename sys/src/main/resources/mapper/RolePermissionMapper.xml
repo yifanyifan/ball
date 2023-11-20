@@ -13,6 +13,12 @@
     <select id="selectByRoleId" resultType="com.chain.entity.RolePermission">
         select rp.* from sys_role_permission rp where rp.role_id = #{roleId}
     </select>
+    <select id="selectByPermissionIdList" resultType="com.chain.entity.RolePermission">
+        select rp.* from sys_role_permission rp where rp.permission_id in
+        <foreach collection="permissionIdList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
 
     <delete id="deleteByRole">
         delete from sys_role_permission where role_id = #{roleId}
