@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chain.common.BallException;
 import com.chain.entity.Permission;
 import com.chain.entity.RolePermission;
 import com.chain.mapper.PermissionMapper;
@@ -168,7 +169,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
         List<RolePermission> rolePermissionList = rolePermissionMapper.selectByPermissionIdList(permissionIdList);
         if (CollectionUtil.isNotEmpty(rolePermissionList)) {
-            throw new RuntimeException("有角色关联，无法删除");
+            throw new BallException("有角色关联，无法删除");
         }
 
         this.removeBatchByIds(permissionIdList);

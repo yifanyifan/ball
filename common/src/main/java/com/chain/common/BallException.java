@@ -13,4 +13,8 @@ public class BallException extends RuntimeException {
         super(errorCode.getMsg());
         this.errorCode = errorCode;
     }
+
+    public BallException(String message) {
+        super(message);
+    }
 }

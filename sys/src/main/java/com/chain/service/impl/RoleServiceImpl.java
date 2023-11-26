@@ -3,6 +3,7 @@ package com.chain.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chain.common.BallException;
 import com.chain.entity.Permission;
 import com.chain.entity.Role;
 import com.chain.entity.RolePermission;
@@ -89,7 +90,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
         List<UserRole> userRoleList = userRoleMapper.selectByRoleId(id);
         if (CollectionUtil.isNotEmpty(userRoleList)) {
-            throw new RuntimeException("有用户关联，无法删除");
+            throw new BallException("有用户关联，无法删除");
         }
 
         roleMapper.deleteById(id);
